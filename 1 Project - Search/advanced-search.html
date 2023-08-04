@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/advanced-search.css" />
+    <title>Google Advanced Search</title>
+  </head>
+  <body>
+    <header>
+      <img id="google-logo2" src="imgs/google-logo.png" />
+      <section id="right-section-header">
+        <a href="index.html">Back</a>
+        <div id="apps-div">
+          <img src="imgs/apps-icon.svg" />
+        </div>
+        <img id="profile-img" src="imgs/profile-picture.jpg" />
+      </section>
+    </header>
+    <div id="title-div">
+      <p id="title">Advanced Search</p>
+    </div>
+    <div id="direction-header-div">
+      <p id="query-header">Find pages with...</p>
+      <p id="direction-header">To do this in the search box</p>
+    </div>
+    <form id="form" action="https://www.google.com/search">
+      <div class="query-div">
+        <p class="query-category">all these words:</p>
+        <input id="search-input" type="text" name="as_q" />
+        <div class="direction-example-div">
+          <p class="direction">Type the important words:</p>
+          <p class="example">tricolor rat terrier</p>
+        </div>
+      </div>
+      <div class="query-div">
+        <p class="query-category">this exact word or phrase:</p>
+        <input id="search-input" type="text" name="as_epq" />
+        <div class="direction-example-div">
+          <p class="direction">Put exact words in quotes:</p>
+          <p class="example">"rat terrier"</p>
+        </div>
+      </div>
+      <div class="query-div">
+        <p class="query-category">any of these words:</p>
+        <input id="search-input" type="text" name="as_oq" />
+        <div class="direction-example-div">
+          <p class="direction">Type OR between all the words you want:</p>
+          <p class="example">miniature OR standard</p>
+        </div>
+      </div>
+      <div class="query-div">
+        <p class="query-category">none of these words:</p>
+        <input id="search-input" type="text" name="as_eq" />
+        <div class="direction-example-div">
+          <p class="direction">
+            Put a minus sign just before words you don't want:
+          </p>
+          <p class="example">-rodent, -"Jack Russell"</p>
+        </div>
+      </div>
+      <div id="adv-search-button-div">
+        <button id="adv-search-button" type="submit">Advanced Search</button>
+      </div>
+    </form>
+  </body>
+</html>
