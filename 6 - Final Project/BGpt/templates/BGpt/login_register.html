@@ -1,0 +1,91 @@
+{% extends "BGpt/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div id="bgpt-logo-cont">
+    <h1>B</h1>
+    <h1>G</h1>
+    <h3>p</h3>
+    <h3>t</h3>
+</div>
+
+<div id="cont-cont">
+    <div class="message">
+        {% if message %} {{ message }} {% endif %}
+    </div>
+    <div class="btn-cont log">
+        <button type="button" class="btn btn-prim" id="login">Login</button>
+        <button type="button" class="btn btn-prim" id="register">Register</button>
+    </div>
+    <!-- REG FORM -->
+    <div id="register-cont">
+        <form action="{% url 'register' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="Email Address">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" autocomplete="on">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password" autocomplete="on">
+            </div>
+            <div class="btn-cont btn-reg">
+                <button type="submit" class="btn btn-prim">Submit</button>
+                <a href="{% url 'index' %}" class="btn btn-prim">Cancel</a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Login Form -->
+    <div id="login-cont">
+        <form action="{% url 'login' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" autocomplete="on">
+            </div>
+            <div class="btn-cont btn-reg">
+                <button type="submit" class="btn btn-prim">Submit</button>
+                <a href="{% url 'index' %}" class="btn btn-prim">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block page_scripts %}
+<script src="{% static 'BGpt/slide.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const login_btn = document.querySelector("#login");
+        const reg_btn = document.querySelector("#register");
+        const login = document.querySelector("#login-cont");
+        const reg = document.querySelector("#register-cont");
+        const message = document.querySelector(".message");
+        var url = window.location.pathname
+
+        if (url === "/register"){
+            login.style.display = 'none';
+            reg.style.display = 'flex';
+        }
+        else if (url === "/login"){
+            login.style.display = 'flex';
+            reg.style.display = 'none';
+        }
+
+        reg_btn.addEventListener('click', () => {
+            message.style.display = 'none';
+        });
+        login_btn.addEventListener('click', () => {
+            message.style.display = 'none';
+        });
+    });
+</script>
+{% endblock %}

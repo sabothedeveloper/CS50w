@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% if not listings %}
+        <br>
+        <h6>No active listings :(</h6>
+    {% endif %}
+
+    {% if not categories %}
+    {% for listing in listings %}
+    <div class="index">
+        {% if listing.image %}
+            <img src="{{ listing.image }}">
+        {% endif %}
+        <div>
+            <span><a href="{% url 'listing' listing.id %}" id="listing_name">{{ listing.name }}</a></span>
+            <span>Price: {{ listing.current_price }} $</span>
+            {% if listing.description %}
+                <span>{{ listing.description }}</span>
+            {% endif %}
+            {% if listing.category %}
+                <span>Category: <a href="{% url 'category' listing.category %}">{{ listing.category }}</a></span>
+            {% endif %}
+            <span id="listing_date">{{ listing.date }}</span>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% for listing in listings %}
+    <div class="index">
+        {% if listing.image %}
+            <img src="{{ listing.image }}">
+        {% endif %}
+        <div>
+            <span><a href="{% url 'listing' listing.id %}" id="listing_name">{{ listing.name }}</a></span>
+            <span>Price: {{ listing.current_price }}</span>
+            {% if listing.description %}
+                <span>{{ listing.description }}</span>
+            {% endif %}
+            {% if listing.category %}
+                <span>Category: <a href="{% url 'category' listing.category %}">{{ listing.category }}</span>
+            {% endif %}
+            <span id="listing_date">{{ listing.date }}</span>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}

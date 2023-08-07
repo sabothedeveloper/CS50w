@@ -1,0 +1,31 @@
+textarea {
+    min-height: 400px;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.email-card {
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 10px;
+}
+.email-card>p {
+    margin: .1rem;
+}
+.email-card:hover {
+    box-shadow: 0 0px 5px 0 black;
+}
+
+/* .email {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
+.email-card {
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,0 +1,59 @@
+body {
+    padding: 10px;
+}
+
+.index {
+    border:2px solid rgba(0, 0, 0, 0.479); 
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+}
+
+img { 
+    height: auto;
+    width: auto;
+    max-height: 300px;
+}
+
+.index *:not(span):not(a){
+    margin: 10px;
+}
+
+.index div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#listing_name{
+    font-size: x-large;
+}
+
+#listing_date{
+    color:grey;
+}
+
+.category{
+    font-size: larger;
+}
+
+#create_listing{
+    text-align: center;
+}
+
+#create_listing form{
+    display: inline-grid;
+}
+
+#create_listing button[type="submit"]{
+    margin-top: 10px;
+}
+
+#post_comment{
+    margin-bottom: 27px;
+}
+
+textarea {
+    width:50%; 
+    height: 200px;
+}

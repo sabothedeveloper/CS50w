@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if win %}
+<h1>You won!</h1>
+{% endif %}
+
+<h2>Listing: {{ listing.name }}</h2>
+<img src="{{ listing.image }}">
+<p>{{ listing.description }}</p>
+<p>Current price: {{ price }} $</p>
+{% if not is_seller %}
+    <form action="{% url 'place_bid' listing.id %}", method="post">
+        {% csrf_token %}
+        <input type="number" placeholder="Bid" name="buyer_bid" step=".01"> <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number -->
+        <button type="submit" class="btn btn-primary">Place bid</button>
+    </form>
+{% endif %}
+{% if is_seller %}
+    <form action="{% url 'close_listing' listing.id %}", method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Close listing</button>
+    </form>
+{% endif %}
+<p>Seller: {{ listing.seller }}</p>
+{% if not watchlist %}
+    <form action="{% url 'watchlist' listing.id %}", method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ listing.id }}" name="id" style="display: none;">
+        <button type="submit" class="btn btn-primary" name="add">Add to watchlist</button>
+    </form>
+{% endif %}
+
+{% if watchlist %}
+    <form action="{% url 'watchlist' listing.id %}", method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" name="remove">Remove from watchlist</button>
+    </form>
+{% endif %}
+
+<h3>Comments</h3>
+<div>
+    <ul>
+    {% for comment in comments %}
+        <li>On {{ comment.date }} {{ comment.user }} said: {{ comment.comment }}</li>
+    {% endfor %}
+    </ul>
+</div>
+<div>
+    <form action="{% url 'comment' listing.id %}", method="post">
+        {% csrf_token %}
+        <textarea name="comment" placeholder="Comment" maxlength="5000"></textarea>
+        <button type="submit" class="btn btn-primary" id="post_comment">Post comment</button>
+    </form>
+</div>
+{% endblock %}

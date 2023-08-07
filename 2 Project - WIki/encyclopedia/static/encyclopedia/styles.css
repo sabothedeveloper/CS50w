@@ -1,0 +1,55 @@
+body {
+    margin: 0px 15px;
+    background-color: white;
+}
+
+code {
+    white-space: pre;
+}
+
+.img-fluid {
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+h1 {
+    margin-top: 0px;
+    padding-top: 20px;
+}
+
+label {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+textarea {
+    height: 50vh;
+    width: 80%;
+}
+
+.main {
+    padding: 10px;
+}
+
+
+.search {
+    width: 100%;
+    font-size: 15px;
+    line-height: 25px;
+    outline: none;
+    border: 2px solid rgb(67, 67, 67);
+    border-radius: 5px;
+}
+.search:hover {
+    border-color: rgb(107, 105, 128);
+}
+
+.sidebar {
+    background-color: #f0f0f0;
+    height: 100vh;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-top: 5px;
+}
