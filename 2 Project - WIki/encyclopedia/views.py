@@ -1,170 +1,131 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from audioop import reverse
+from html import entities
+import re, os.path, random
 from django.shortcuts import render
-from django.urls import reverse
-
-from random import randrange
-import markdown2 
-import markdownify
-
+from django.http import HttpResponseRedirect, HttpResponse
+import markdown2
 
 from . import util
-from .forms import CreateNewWiki
 
 
 def index(request):
-        return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-        })
+    return render(request, "encyclopedia/index.html", {"entries": util.list_entries()})
 
 
-def page(request, name):
-    # Get the content if exist
-    content = util.get_entry(name)
-
-    if content:
-        # Return the page and convert markdown to html
-        return render(request, "encyclopedia/title.html", {
-            "title": name.capitalize(),
-            "body": markdown2.markdown(content)
-        })
-
-    else:
-        return render(request, "encyclopedia/error.html")
+def entry(request, name):
+    entry = util.get_entry(name)
+    if entry == None:
+        return render(
+            request, "encyclopedia/entry.html", {"entry": entry, "name": name}
+        )
+    # rendering the markdown using the library
+    # entry = markdown2.markdown(entry)
+    split = entry.split("\n")
+    # removing leftover \r's and whitespace elements from our list
+    split = [
+        element.replace("\r", "")
+        for element in split
+        if element != "" and element != "\r"
+    ]
+    new = []
+    # https://stackoverflow.com/questions/2763750/how-to-replace-only-part-of-the-match-with-python-re-sub
+    # converting each element to html
+    for element in split:
+        if "#" in element:
+            element = re.sub("^# ([^#]+)", r"<h1>\1</h1>", element)
+            element = re.sub("^## ([^#]+)", r"<h2>\1</h2>", element)
+            element = re.sub("^### ([^#]+)", r"<h3>\1</h3>", element)
+            element = re.sub("^#### ([^#]+)", r"<h4>\1</h4>", element)
+            element = re.sub("^##### ([^#]+)", r"<h5>\1</h5>", element)
+            element = re.sub("^###### ([^#]+)", r"<h6>\1</h6>", element)
+        elif "**" in element or "__" in element:
+            element = re.sub("\*\*([^\*]+)\*\*", r"<b>\1</b>", element)
+            element = re.sub("__([^\_]+)__", r"<b>\1</b>", element)
+            element = re.sub("(.+)", r"<p>\1</p>", element)
+        elif "*" in element:
+            element = re.sub("^\* ([^\*]+)", r"<li>\1</li>", element)
+        elif re.match("([\w 0-9]+)\[([^[]+)\]\(([^\(]+)\)", element):
+            element = re.sub(
+                "([\w 0-9]+)\[([^[]+)\]\(([^\(]+)\)", r'\1<a href="\3">\2</a>', element
+            )
+            element = re.sub("(.+)", r"<p>\1</p>", element)
+        else:
+            element = re.sub("(.+)", r"<p>\1</p>", element)
+        new.append(element)
+    # moving all the li elements into ul
+    add_ul(new)
+    # https://www.simplilearn.com/tutorials/python-tutorial/list-to-string-in-python#:~:text=To%20convert%20a%20list%20to%20a%20string%2C%20use%20Python%20List,and%20return%20it%20as%20output.
+    # converting our list to string
+    entry = " ".join(new)
+    return render(request, "encyclopedia/entry.html", {"entry": entry, "name": name})
 
 
 def search(request):
-
-    if request.method == "POST":
-        # Get the value of user search 
-        title = request.POST.getlist("q")[0]
-
-        # Return index page if user search for nothing
-        if not title:
-            return index(request)
-
-        # Get the content if exist
-        content = util.get_entry(title)
-
-        if content:
-            return render(request, "encyclopedia/title.html", {
-                "title": title.capitalize(),
-                "body": markdown2.markdown(content),
-            })
-
-        # if the content doesn't exist  
-        else:
-            # Get all the entries
-            all_pages = util.list_entries()
-            # Similar pages
-            similar_pages = []
-
-            # search if there is similarity b/n them 
-            for page in util.list_entries():
-
-                # Check if the substring is in the pages
-                if title.lower() in page.lower():
-                    similar_pages.append(page)
-
-            # display all of them
-            return render(request, 'encyclopedia/search.html', {
-                "search": similar_pages,
-            })
-    # via GET ( for safety)
-    else:
-        return index(request)
-
-def add(request):
-    # via POST
-    if request.method == "POST":
-
-        # Get all the information the user insert
-        form = CreateNewWiki(request.POST)
-
-        # Check if the form is valid
-        if form.is_valid():
-            # GET the title and check if the same title exist
-            title = form.cleaned_data["title"]
-            if util.get_entry(title):
-                # Return error message
-                return render(request, 'encyclopedia/addpage.html', {
-                    "error": "There is another title by this name. Change Your title!",
-                    "form": form,
-                })
-            
-            # Else get the content 
-            content = markdown2.markdown(form.cleaned_data["content"])
-
-            # add it to the database
-            util.save_entry(title.capitalize(), markdownify.markdownify(content,heading_style="ATX"))
-            
-            # Return the user into entry page
-            return page(request, title)
-        
-        else:
-            return render(request, 'encyclopedia/addpage.html', {
-                "error": "Your Page is not submitted, Please fill The form Correctly",
-                "form": form,
-            })
+    # https://stackoverflow.com/questions/53920004/add-q-searchterm-in-django-url
+    name = request.GET.get("q")
+    entry = util.get_entry(name)
+    # if we couldn't find corresponding entry, render page with the results
+    if entry == None:
+        match = []
+        entries = util.list_entries()
+        # checking if our search entry is a substring of any entries
+        for entry in entries:
+            if name.lower() in entry.lower():
+                match.append(entry)
+        return render(request, "encyclopedia/search_results.html", {"entries": match})
+    # if found a corresponding entry, get redirected to that page
+    return HttpResponseRedirect(f"../wiki/{name}")
 
 
-    # via GET
-    else:
-       # return empty form to the user
-        return render(request, 'encyclopedia/addpage.html', {
-            "form": CreateNewWiki(),
-        })
+def newpage(request):
+    return render(request, "encyclopedia/newpage.html")
 
 
-def random(request):
-    # GET all the topics
-    topics = util.list_entries()
-
-    # random number
-    l = randrange(0, len(topics))
-    
-    # get the title randomly
-    title = util.get_entry(topics[l])
-
-    # return that page
-    return render(request, 'encyclopedia/title.html', {
-        "title":  topics[l],
-        "body": markdown2.markdown(title)
-    })
+def checkentry(request):
+    title = request.GET.get("title")
+    entry = request.GET.get("entry")
+    # https://www.pythontutorial.net/python-basics/python-check-if-file-exists/
+    if os.path.exists(f"entries/{title}.md"):
+        return render(request, "encyclopedia/newpage.html", {"check": True})
+    with open(f"entries/{title}.md", "w") as file:
+        file.write(entry)
+    return HttpResponseRedirect(f"../wiki/{title}")
 
 
-def edit(request, file):
-    if request.method == "POST":
-
-        # Get the update data
-        update = CreateNewWiki(request.POST)
-        
-        # Clean the data and update it to the database
-        if update.is_valid():
-            content = markdown2.markdown(update.cleaned_data['content'])
-            util.save_entry(file, markdownify.markdownify(content, heading_style="ATX"))
-            
-            # return them to new entry page
-            return page(request, file)
+def editpage(request, name):
+    return render(
+        request,
+        "encyclopedia/edit_page.html",
+        {"name": name, "entry": util.get_entry(name)},
+    )
 
 
-        # if the data is not valid return to the user edited data
-        else:
-            return render(request,'encyclopedia/edit.html', {
-                "title":file,
-                "edit": update,
-            })
+def saveentry(request):
+    title = request.GET.get("title")
+    entry = request.GET.get("entry")
+    with open(f"entries/{title}.md", "w") as file:
+        file.write(entry)
+    return HttpResponseRedirect(f"../wiki/{title}")
 
-    # via Get
-    else:
-        
-        # Get the topic and populate it with existing data: file= title of the page, util.get_entry(file) is text w/ markdown font-type
-        topic = CreateNewWiki(initial={'title': file, 'content': util.get_entry(file)})
-        # Make the title page readonly so the user can't edit
-        # Its a distruction, so that even if this attribute is change it has no effect until the form action is unchange
-        topic.fields['title'].widget.attrs['readonly'] = True
-      
-        # The return the data to the user
-        return render(request, 'encyclopedia/edit.html', {
-            "title": file,
-            "edit": topic,
-        })
+
+def randompage(request):
+    entries = util.list_entries()
+    return HttpResponseRedirect(f"../wiki/{random.choice(entries)}")
+
+
+def add_ul(new):
+    first = 0
+    check = False
+    for i in range(len(new)):
+        if "<li>" in new[i]:
+            check = True
+            first = i
+            break
+    last = 0
+    for i in range(len(new)):
+        if "<li>" in new[i]:
+            last = i
+    if check == True:
+        new.insert(first, "<ul>")
+        new.insert(last + 2, "</ul>")
+    return new

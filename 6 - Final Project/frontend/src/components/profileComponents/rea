@@ -1,0 +1,13 @@
+skill={skill}
+                setSkill={setSkill}
+                editSkill={editSkill}
+                editMultipleData={editMultipleData}
+                getData={getData}
+                sendMultipleData={sendMultipleData}
+                setSingleSkill={setSingleSkill}
+                setEditSkill={setEditSkill}
+                singleSkill={singleSkill}
+                multipleErrors={multipleErrors}
+                removeMultipleErrors={removeMultipleErrors}
+                renderFieldErrorMultiple={renderFieldErrorMultiple}
+                deleteData={deleteData}

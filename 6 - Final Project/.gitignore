@@ -1,6 +1,7 @@
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
-
-.env
+/venv
+.Pipfile
+.Pipfile.lock
+*.pyc
+__pycache__
+*.sqlite3
+*.db

@@ -1,0 +1,16 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Edit entry
+{% endblock %}
+
+{% block body %}
+        <form action="{% url 'saveentry' %}">
+            <!-- https://www.w3schools.com/tags/att_input_readonly.asp -->
+            <input type="text" name="title" readonly value="{{ name }}">
+            <br/>
+            <textarea name="entry">{{ entry }}</textarea>
+            <input type="submit" value="Save changes">
+        </form>
+
+{% endblock %}

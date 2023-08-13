@@ -1,0 +1,20 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create new entry
+{% endblock %}
+
+{% block body %}
+    {% if check %}
+        <h1>Error!</h1>
+        <p>This entry already exists!</p>
+    {% else %}
+        <form action="{% url 'checkentry' %}">
+            <input type="text" name="title" placeholder="Title of an entry">
+            <br/>
+            <textarea name="entry">Write your entry here!</textarea>
+            <input type="submit" value="Save entry">
+        </form>
+    {% endif %}
+
+{% endblock %}
