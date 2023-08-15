@@ -24,7 +24,7 @@ The personal blog web app satisfies the distinctiveness and complexity requireme
 1. Clone the repository:
 
 ```
-git clone https://github.com/yourusername/personal-blog-web-app.git
+git clone https://github.com/szabolcsthedeveloper/personal-blog-web-app.git
 cd personal-blog-web-app
 ```
 
