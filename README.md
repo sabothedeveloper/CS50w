@@ -18,23 +18,23 @@ It has the following courses:
 More information [here](https://cs50.harvard.edu/web/2020/).
 
 Project 1: Google Clone 
-👉 **[Check out theDemo](https://cloneofgoogle.netlify.app/)**
-![image](https://github.com/szabolcsthedeveloper/CS50w/assets/109295080/9c5061e0-6d82-4f6b-b316-341953273137)
+👉 **[Live Demo](https://cloneofgoogle.netlify.app/)**
+![image](https://github.com/szabolcsthedeveloper/CS50w/assets/109295080/cbfdbd9f-2dfe-4fe7-bb61-cd074df9b48e)
 
 Project 2: Wikipedia Clone
-[![Project 2](https://img.youtube.com/vi/eAwighSTdQs/hqdefault.jpg)](https://www.youtube.com/watch?v=eAwighSTdQs)
+[View Demo](https://www.youtube.com/watch?v=eAwighSTdQs)
 
 Project 3: eBay Clone
-[![Project 3](https://img.youtube.com/vi/Xm0lgNH09xw/hqdefault.jpg)](https://www.youtube.com/watch?v=Xm0lgNH09xw)
+[View Demo](https://www.youtube.com/watch?v=Xm0lgNH09xw)
 
 Project 4: Gmail Clone
-[![Project 4](https://img.youtube.com/vi/mqzCdYocX4k/hqdefault.jpg)](https://www.youtube.com/watch?v=mqzCdYocX4k)
+[View Demo](https://www.youtube.com/watch?v=mqzCdYocX4k)
 
 Project 5: Twitter Clone
-[![Project 5](https://img.youtube.com/vi/HVI3yAgsW6s/hqdefault.jpg)](https://www.youtube.com/watch?v=HVI3yAgsW6s)
+[View Demo](https://www.youtube.com/watch?v=HVI3yAgsW6s)
 
 Final Project: Personal Blog
-[![Final Project](https://img.youtube.com/vi/1MQzK72HjmM/hqdefault.jpg)](https://www.youtube.com/watch?v=1MQzK72HjmM)
+[View Demo](https://www.youtube.com/watch?v=1MQzK72HjmM)
 
 
 
