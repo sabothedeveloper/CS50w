@@ -1,4 +1,4 @@
-# Harvard's CS50’s Introduction to Computer Science 
+# Harvard's CS50’s Web Programming with Python and JavaScript
 My CS50 Harvard Course GitHub repository is a collection of my code, projects, and assignments completed during the course, showcasing my progress and skills as I tackle the challenges presented by Harvard's CS50 curriculum.
 
 It has the following courses:
