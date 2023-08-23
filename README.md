@@ -17,6 +17,8 @@ It has the following courses:
 
 More information [here](https://cs50.harvard.edu/web/2020/).
 
+![CS50W](https://github.com/szabolcsthedeveloper/CS50w/assets/109295080/5cac9221-aa75-4c9c-b069-a0458fff4cec)
+
 Project 1: Google Clone 
 👉 **[Live Demo](https://cloneofgoogle.netlify.app/)**
 ![image](https://github.com/szabolcsthedeveloper/CS50w/assets/109295080/cbfdbd9f-2dfe-4fe7-bb61-cd074df9b48e)
